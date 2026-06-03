@@ -1,7 +1,7 @@
 {
   "name": "wshoto-mcp",
   "version": "1.0.0",
-  "description": "MCP server for Wshoto (微盛企微管家) SCRM help documentation — instant search across 154 official help pages, with zero credentials, pure local-first architecture",
+  "description": "微盛企微管家帮助文档 MCP — 覆盖员工活码/客户群/群发/素材/会话存档等全量功能文档，零凭证、本地优先架构",
   "type": "module",
   "main": "src/index.mjs",
   "bin": {
