@@ -1,0 +1,4 @@
+# 把下面这行的 example.com 换成你的域名
+your-domain.com {
+  reverse_proxy mcp:3030
+}
