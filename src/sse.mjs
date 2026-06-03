@@ -297,14 +297,6 @@ function createMcpServer() {
 
 // ── Start HTTP server with Streamable HTTP transport ─────────
 async function main() {
-  const mcpServer = createMcpServer();
-  const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined, // stateless mode — simpler for URL-based MCP
-  });
-
-  // Connect server to transport
-  await mcpServer.connect(transport);
-
   const httpServer = createServer(async (req, res) => {
     // CORS
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -324,9 +316,8 @@ async function main() {
       return;
     }
 
-    // MCP endpoint
+    // MCP endpoint — create fresh transport per request (stateless)
     if (req.url === "/mcp" || req.url === "/sse") {
-      // Collect body for POST
       let body = undefined;
       if (req.method === "POST") {
         const chunks = [];
@@ -334,7 +325,21 @@ async function main() {
         const raw = Buffer.concat(chunks).toString();
         try { body = JSON.parse(raw); } catch { body = raw; }
       }
-      await transport.handleRequest(req, res, body);
+      try {
+        const mcpServer = createMcpServer();
+        const transport = new StreamableHTTPServerTransport({
+          sessionIdGenerator: undefined,
+        });
+        await mcpServer.connect(transport);
+        await transport.handleRequest(req, res, body);
+        await transport.close();
+      } catch (e) {
+        console.error("MCP request error:", e.message);
+        if (!res.headersSent) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ error: "Internal error", detail: e.message }));
+        }
+      }
       return;
     }
 
