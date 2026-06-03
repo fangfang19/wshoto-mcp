@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: wshoto-mcp
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: node src/sse.mjs
+    healthCheckPath: /health
+    autoDeploy: true
