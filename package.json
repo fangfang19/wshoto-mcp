@@ -1,0 +1,43 @@
+{
+  "name": "wshoto-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Wshoto (微盛企微管家) SCRM help documentation — instant search across 154 official help pages, with zero credentials, pure local-first architecture",
+  "type": "module",
+  "main": "src/index.mjs",
+  "bin": {
+    "wshoto-mcp": "src/index.mjs"
+  },
+  "files": [
+    "src/",
+    "data/",
+    "scripts/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fangfang19/wshoto-mcp"
+  },
+  "author": "wshoto-mcp contributors",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "wshoto",
+    "wecom",
+    "scrm",
+    "微盛",
+    "企微管家",
+    "help-docs",
+    "modelcontextprotocol",
+    "enterprise-wechat"
+  ],
+  "scripts": {
+    "start": "node src/index.mjs",
+    "build-index": "python3 scripts/build_index.py"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
